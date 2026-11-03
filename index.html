@@ -165,10 +165,26 @@ html.js-loading body{overflow:hidden}
 .hud-t.tr{right:50px;top:20px;text-align:right}
 .hud-t.br{right:50px;bottom:24px;text-align:right}
 .hud-t b{font-weight:500;color:var(--acc)}
-.hud-x{position:absolute;left:var(--hx,58%);top:var(--hy,44%);width:150px;height:150px;margin:-75px 0 0 -75px;overflow:visible}
-.hud-x path{fill:none;stroke:#fff;stroke-width:1.3;vector-effect:non-scaling-stroke}
-.hud-x .acc{stroke:var(--acc)}
-.hud-x text{font:500 9px var(--mono);fill:#fff;letter-spacing:.08em}
+/* слайды первого экрана: зал → капучино → эклеры, медленный наезд */
+.hero-photo .hs{position:absolute;inset:0;opacity:0;animation:hs 18s ease-in-out infinite both}
+.hero-photo .hs:nth-of-type(2){animation-delay:5s}
+.hero-photo .hs:nth-of-type(3){animation-delay:11s}
+@keyframes hs{0%{opacity:0;transform:scale(1.1)}4%{opacity:1}30%{opacity:1}36%{opacity:0;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+/* «сейчас самое время» */
+.now{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:20px;align-items:center;margin-top:14px;padding:12px 22px 12px 12px;border-radius:var(--r);background:var(--acc-soft)}
+.now-ph{width:96px;height:96px;border-radius:14px}
+.now-ph::after{content:none}
+.now .label{margin:0 0 4px;color:var(--acc-ink)}
+.now h3{font-size:clamp(22px,2.2vw,30px)}
+.now-tx p:last-child{margin:4px 0 0;font-weight:300;color:#3A3936}
+/* бегущая лента */
+.mq{margin-top:clamp(56px,7vw,100px);overflow:hidden}
+.mq-t{display:flex;gap:14px;width:max-content;animation:mq 60s linear infinite}
+.mq:hover .mq-t{animation-play-state:paused}
+.mq .ph{width:clamp(200px,20vw,280px);aspect-ratio:4/5;flex:none}
+.mq .ph::before{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.5));pointer-events:none}
+.mq figcaption{position:absolute;left:14px;bottom:26px;color:#fff;font-weight:500;font-size:15px;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+@keyframes mq{to{transform:translateX(calc(-50% - 7px))}}
 /* быстрые ответы */
 .quick{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}
 .quick a{display:flex;flex-direction:column;justify-content:space-between;gap:10px;min-height:104px;padding:16px 18px;border-radius:16px;background:var(--card);text-decoration:none;transition:background .2s,transform .2s}
@@ -236,10 +252,6 @@ html.js-loading body{overflow:hidden}
 .t-hint{margin:10px 0 0;font-size:13.5px;line-height:1.4;color:var(--acc-ink);min-height:1.4em}
 .tray .btns{margin-top:14px}
 .tray .btns .btn{flex:1 1 140px}
-.drink-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
-.drink-strip .ph{aspect-ratio:4/5}
-.drink-strip figcaption{position:absolute;left:12px;bottom:26px;right:12px;color:#fff;font-weight:500;font-size:14px;line-height:1.25;text-shadow:0 1px 8px rgba(0,0,0,.6)}
-.drink-strip .ph::before{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.55));pointer-events:none}
 .fly-dot{position:fixed;z-index:120;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--acc);pointer-events:none;left:0;top:0}
 
 /* ---------- глава с глобусом ---------- */
@@ -445,7 +457,6 @@ html.js-loading body{overflow:hidden}
   .status{margin-top:14px}
   .hero .btns{margin-top:16px}
   .hud-t.tr{display:none}
-  .hud-x{width:110px;height:110px;margin:-55px 0 0 -55px}
   .quick{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-inline:-16px;padding-inline:16px;scroll-padding-inline:16px}
   .quick::-webkit-scrollbar{display:none}
   .quick a{flex:0 0 44%;min-height:96px;scroll-snap-align:start}
@@ -456,7 +467,12 @@ html.js-loading body{overflow:hidden}
   .sec{padding-top:52px}
   .sec-head{margin-bottom:22px}
   .art .ph{display:none}
-  .drink-strip{display:none}
+  .now{grid-template-columns:64px minmax(0,1fr);gap:12px 14px;padding:10px 12px 12px 10px}
+  .now-ph{width:64px;height:64px}
+  .now h3{font-size:20px}
+  .now-tx p:last-child{display:none}
+  .now .btn{grid-column:1/-1}
+  .mq .ph{width:170px}
   .pass-prev canvas{max-width:250px}
   .bars{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 12px;padding:22px 18px}
   .bar-it b{font-size:28px}
@@ -513,6 +529,8 @@ html.js-loading body{overflow:hidden}
   .toast{bottom:150px}
 }
 @media (prefers-reduced-motion: reduce){
+  .mq{overflow-x:auto}
+  .hero-photo .hs{display:none}
   *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 }
 </style>
@@ -565,28 +583,20 @@ html.js-loading body{overflow:hidden}
       <div class="h-body">
         <h1><span class="sr">Кофейня Ecuador на Каштановой, 14 в Одинцово</span><span class="h-w" aria-hidden="true">ECUADOR</span></h1>
         <p class="h-coord"><span id="hCoord">−2°00′ S</span></p>
-        <p class="lead">Кофейная страна в соседнем доме: 100% арабика свежей обжарки, двадцать авторских рафов и капучино, фильтр-кофе и эклеры, за которыми возвращаются с коробкой.</p>
+        <p class="lead">Густая пенка, свежая обжарка и эклеры, за которыми возвращаются с целой коробкой. Сварим как любите — погорячей, похолодней, на альтернативном молоке.</p>
         <div class="status" id="status" aria-live="polite"><span class="dot"></span><span><span id="stText">Пн–Сб 08:00–21:00, Вс 09:00–21:00</span><small id="stSub">Каштановая ул., 14 · у входа вывеска ECUADOR</small></span></div>
         <div class="btns"><a class="btn btn-dark" href="#menu">Собрать предзаказ</a><a class="btn" href="https://yandex.ru/maps/?rtext=~55.654950%2C37.273525&amp;rtt=pd" target="_blank" rel="noopener">Маршрут</a></div>
       </div>
     </div>
     <figure class="hero-photo ph" id="heroPhoto">
       <img src="img/hall-1200.webp" srcset="img/hall-600.webp 600w, img/hall-1200.webp 960w" sizes="(max-width:900px) 100vw, 58vw" width="960" height="1280" alt="Зал кофейни Ecuador: большая роспись на стене, деревянные столы и стулья у окна" fetchpriority="high">
+      <img class="hs" src="img/latte-1200.webp" width="622" height="800" alt="Капучино с латте-артом">
+      <img class="hs" src="img/eclairs-1200.webp" width="641" height="800" alt="Эклеры с глазурью">
       <div class="hud" aria-hidden="true">
         <span class="hud-c tl"></span><span class="hud-c tr"></span><span class="hud-c bl"></span><span class="hud-c br"></span>
         <span class="hud-t tl" id="hudLL">55°39′18″ N · 37°16′25″ E</span>
         <span class="hud-t tr" id="hudSt">Зал · <b>Каштановая, 14</b></span>
         <span class="hud-t br">Одинцово-1<br><b>кофейная страна</b></span>
-        <svg class="hud-x" id="hudX" viewBox="-75 -75 150 150">
-          <defs><filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.4" result="b1"/><feGaussianBlur stdDeviation="7" in="SourceGraphic" result="b2"/><feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-          <g filter="url(#glow)">
-            <path pathLength="1" d="M0 -46 A46 46 0 1 1 -0.01 -46"/>
-            <g id="hudRing"><path class="acc" pathLength="1" d="M0 -62 A62 62 0 0 1 43.8 -43.8"/><path class="acc" pathLength="1" d="M0 62 A62 62 0 0 1 -43.8 43.8"/></g>
-            <path pathLength="1" d="M-70 0 H-30 M30 0 H70 M0 -70 V-30 M0 30 V70"/>
-            <path class="acc" pathLength="1" d="M-3 0 H3 M0 -3 V3"/>
-          </g>
-          <text x="52" y="-50">LAT 55.65</text>
-        </svg>
       </div>
     </figure>
   </div>
@@ -597,14 +607,19 @@ html.js-loading body{overflow:hidden}
     <a href="#place"><b>Wi-Fi</b><span>розетки, тихо — можно поработать</span></a>
     <a href="#place"><b>С собакой</b><span>можно, и с коляской проедете</span></a>
   </nav>
+  <div class="now" id="now">
+    <figure class="ph now-ph"><img id="nowImg" src="img/latte-600.webp" width="600" height="772" alt=""></figure>
+    <div class="now-tx"><p class="label" id="nowLbl">Сейчас самое время</p><h3 id="nowTtl">для капучино и эклера</h3><p id="nowSub">Пока вы идёте, бариста уже взбивает молоко.</p></div>
+    <button type="button" class="btn btn-acc" id="nowBtn">На поднос · 220 ₽</button>
+  </div>
 </section>
 
 <section class="sec wrap" id="menu" aria-labelledby="menuH">
   <div class="owner-note"><span class="on-t">Для владельца · меню и предзаказ</span>Утром из ЖК идут потоком, и очередь — главная потеря: человек видит троих перед собой и уходит. Здесь гость нажимает на цену, напиток ложится на поднос, а вам приходит готовое сообщение со временем. <b>Допы предлагаются прямо на подносе</b> (альтернативное молоко +60, сироп +40) — это +60–100 ₽ к чеку без уговоров. Цены — с фото вашей доски на Картах (начало 2025 года): пришлёте актуальные — заменю за вечер. WhatsApp на номере я не проверял, звонок работает точно.</div>
   <div class="sec-head">
     <p class="label">Меню · предзаказ к нужному времени</p>
-    <h2>Нажмите на цену —<br>напиток <span class="a">ляжет на поднос</span></h2>
-    <p class="sub">Это доска из нашего зала. Соберите заказ, выберите время — и заберёте без очереди. Финальную сумму назовёт бариста.</p>
+    <h2>Ваш кофе будет готов,<br><span class="a">когда вы войдёте</span></h2>
+    <p class="sub">Это доска из нашего зала. Нажмите на цену — напиток ляжет на поднос, выберите время и заберите без очереди. Финальную сумму назовёт бариста.</p>
   </div>
   <div class="menu-grid">
     <div class="board" id="board">
@@ -635,12 +650,6 @@ html.js-loading body{overflow:hidden}
         <a class="btn" href="tel:+79854756915"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5l2.6 3.8-1.6 2.3a11 11 0 0 0 6.8 6.8l2.3-1.6 3.8 2.6-1.2 3a2 2 0 0 1-2.1 1.2C10.4 20.6 3.4 13.6 2.4 6.8a2 2 0 0 1 1.2-2.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Позвонить</a>
       </div>
     </aside>
-  </div>
-  <div class="drink-strip">
-    <figure class="ph"><img src="img/latte-600.webp" width="600" height="772" loading="lazy" alt="Капучино с латте-артом в белой чашке"><figcaption>Латте-арт на каждом капучино</figcaption></figure>
-    <figure class="ph"><img src="img/matcha-600.webp" width="600" height="800" loading="lazy" alt="Матча-латте в красной чашке на деревянном столе"><figcaption>Матча: зелёная, розовая, голубая</figcaption></figure>
-    <figure class="ph"><img src="img/cocoa-600.webp" width="600" height="800" loading="lazy" alt="Какао с маршмеллоу и кофе на деревянном подносе"><figcaption>Какао и горячий шоколад</figcaption></figure>
-    <figure class="ph"><img src="img/spanish-600.webp" width="600" height="800" loading="lazy" alt="Холодный латте в стакане Ecuador"><figcaption>Холодные латте со льдом</figcaption></figure>
   </div>
   <p class="fine">Цены — с фото меню-доски в зале (Яндекс Карты, начало 2025 года), на Картах капучино сейчас «от 210 ₽». Сезонные напитки — в нашем <a href="https://t.me/Ecucoffee" target="_blank" rel="noopener">Telegram-канале</a>.</p>
 </section>
@@ -684,6 +693,20 @@ html.js-loading body{overflow:hidden}
   <p id="manifest">Есть места, куда приходишь не только за кофе. Посидеть у окна, поймать немного солнца, поговорить с близким человеком, почитать несколько страниц книги — или просто побыть наедине с собой.</p>
   <span class="src">— из нашего Telegram-канала, сентябрь 2026</span>
 </section>
+
+<div class="mq" aria-label="Что у нас в чашках и на витрине">
+  <div class="mq-t" id="mqT">
+    <figure class="ph"><img src="img/latte-600.webp" width="600" height="772" loading="lazy" alt="Капучино с латте-артом"><figcaption>Капучино</figcaption></figure>
+    <figure class="ph"><img src="img/eclairs-600.webp" width="600" height="749" loading="lazy" alt="Эклеры"><figcaption>Эклеры</figcaption></figure>
+    <figure class="ph"><img src="img/matcha-600.webp" width="600" height="800" loading="lazy" alt="Матча в красной чашке"><figcaption>Матча</figcaption></figure>
+    <figure class="ph"><img src="img/cheesecake-600.webp" width="600" height="800" loading="lazy" alt="Клубничный чизкейк"><figcaption>Клубничный чизкейк</figcaption></figure>
+    <figure class="ph"><img src="img/cocoa-600.webp" width="600" height="800" loading="lazy" alt="Какао с маршмеллоу"><figcaption>Какао</figcaption></figure>
+    <figure class="ph"><img src="img/spanish-600.webp" width="600" height="800" loading="lazy" alt="Холодный латте"><figcaption>Латте со льдом</figcaption></figure>
+    <figure class="ph"><img src="img/choux-600.webp" width="600" height="800" loading="lazy" alt="Пирожные шу"><figcaption>Шу</figcaption></figure>
+    <figure class="ph"><img src="img/cups-600.webp" width="600" height="800" loading="lazy" alt="Кофе на деревянном столе"><figcaption>Кофе</figcaption></figure>
+    <figure class="ph"><img src="img/sandwich-600.webp" width="600" height="746" loading="lazy" alt="Сэндвичи и холодный латте"><figcaption>Сэндвичи</figcaption></figure>
+  </div>
+</div>
 
 <section class="sec wrap" id="vitrina" aria-labelledby="vitH">
   <div class="owner-note"><span class="on-t">Для владельца · витрина</span>Эклеры — ваш хит, вы сами пишете об этом в канале. Цены на десерты я не нашёл, поэтому их нет. К праздникам этот блок становится <b>предзаказом тортов</b>: к 8 Марта вы уже собирали заказы на «Манго–маракуйю» и «Клубнику–мяту». Заказ с сайта — это деньги вперёд и точное число тортов, без остатков.</div>
@@ -1104,6 +1127,34 @@ new IntersectionObserver(function(es){ trayVisible = es[0].isIntersecting; updat
 function updatePill(){ $('#tpill').hidden = !tray.length || trayVisible; }
 renderTray();
 
+/* ---------- «сейчас самое время» ---------- */
+(function(){
+  var NOW = [ /* [с какого часа, напиток, мл, заголовок, подпись, фото] */
+    [0, 'Капучино', 300, 'для капучино и эклера', 'Пока вы идёте, бариста уже взбивает молоко.', 'latte'],
+    [11, 'Флэт уайт', 300, 'для флэт уайта и сэндвича', 'Обед в соседнем доме: кофе покрепче и сэндвич на цельнозерновом.', 'sandwich'],
+    [16, 'Раф Тыквенно-карамельный', 300, 'для тыквенного рафа', 'Вечер, кресло у окна и десерт с витрины.', 'pumpkin']
+  ];
+  var pick;
+  function find(name){ var r; MENU.forEach(function(c){ c.items.forEach(function(it){ if (it[0] === name) r = [c, it]; }); }); return r; }
+  function paint(){
+    var n = nowInfo(), h = HOURS[n.d], open = n.min >= h[0] * 60 && n.min < h[1] * 60, hr = Math.floor(n.min / 60);
+    pick = NOW[0]; NOW.forEach(function(x){ if (open && hr >= x[0]) pick = x; });
+    var ci = find(pick[1]), price = ci[1][1][pick[2]];
+    $('#nowLbl').textContent = open ? 'Сейчас ' + hm(n.min) + ' — самое время' : 'Завтра утром — самое время';
+    $('#nowTtl').textContent = pick[3];
+    $('#nowSub').textContent = open ? pick[4] : 'Оставьте предзаказ сейчас — к открытию всё будет готово.';
+    $('#nowImg').src = 'img/' + pick[5] + '-600.webp';
+    $('#nowBtn').textContent = 'На поднос · ' + pick[1].toLowerCase() + ' ' + price + ' ₽';
+  }
+  paint(); setInterval(paint, 60000);
+  $('#nowBtn').addEventListener('click', function(){
+    var ci = find(pick[1]); addItem(ci[0], ci[1], pick[2], this);
+    toast('На подносе! Выберите время — и заберёте без очереди');
+  });
+  /* лента: вторая копия для бесшовной прокрутки */
+  var t = $('#mqT'); $$('.ph', t).forEach(function(el){ var c = el.cloneNode(true); c.setAttribute('aria-hidden', 'true'); t.appendChild(c); });
+})();
+
 /* ---------- лайтбокс ---------- */
 (function(){
   var lb = $('#lb'), img = $('#lbImg'), cap = $('#lbCap'), back = null;
@@ -1406,25 +1457,17 @@ var LAND = 'AAAAAAAAABAAQkBIAAhJIQshJISEhIAUEBJCAkDAAJk6IQNgYAAMhJEDMjIADsTYgZk5
     addEventListener('pointermove', function(e){ mx = e.clientX; my = e.clientY; c.style.opacity = 1; var el = e.target.closest ? e.target.closest('a,button,.zoom,select,input,label') : null; c.classList.toggle('big', !!el); c.classList.toggle('dark', !!(e.target.closest && e.target.closest('.board,.g-card,.foot,.art-txt,.lb'))); }, { passive: true });
     document.addEventListener('pointerleave', function(){ c.style.opacity = 0; });
     gsap.ticker.add(function(){ var now = performance.now(), k = 1 - Math.pow(.7, (now - last) / 16.67); last = now; cx += (mx - cx) * k; cy += (my - cy) * k; c.style.transform = 'translate(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px)'; });
-    /* перекрестие на фото следует за курсором */
-    var hp = $('#heroPhoto'), hx = $('#hudX'), qx = gsap.quickTo(hx, 'x', { duration: .8, ease: 'power3' }), qy = gsap.quickTo(hx, 'y', { duration: .8, ease: 'power3' });
-    hp.addEventListener('pointermove', function(e){ var r = hp.getBoundingClientRect(); qx((e.clientX - r.left - r.width * .58) * .35); qy((e.clientY - r.top - r.height * .44) * .35); });
-    hp.addEventListener('pointerleave', function(){ qx(0); qy(0); });
   }
-  gsap.to('#hudRing', { rotation: 360, svgOrigin: '0 0', duration: 24, repeat: -1, ease: 'none' });
 
   /* интро первого экрана */
   var split = SplitText.create('.hero h1 .h-w', { type: 'chars', charsClass: 'ch' });
-  var hudPaths = $$('#hudX path');
-  gsap.set(hudPaths, { strokeDasharray: 1, strokeDashoffset: 1 });
   var intro = gsap.timeline({ paused: true });
-  intro.from('#heroPhoto img', { opacity: 0, scale: 1.1, filter: 'blur(18px)', duration: 1.3, ease: 'power3.out', clearProps: 'filter' }, .15)
-    .to(hudPaths, { strokeDashoffset: 0, duration: 1.1, stagger: .08, ease: 'power2.inOut' }, .35)
-    .from('.hud-c, .hud-t, #hudX text', { opacity: 0, duration: .6, stagger: .05 }, .5)
+  intro.from('#heroPhoto img:first-of-type', { opacity: 0, scale: 1.1, filter: 'blur(18px)', duration: 1.3, ease: 'power3.out', clearProps: 'filter' }, .15)
+    .from('.hud-c, .hud-t', { opacity: 0, duration: .6, stagger: .05 }, .5)
     .from(split.chars, { opacity: 0, yPercent: 30, filter: 'blur(12px)', duration: .9, stagger: .05, ease: 'power3.out', clearProps: 'filter' }, .45)
     .to('#hCoord', { duration: 1.1, scrambleText: { text: '−2°00′ S · кофейная страна', chars: '0123456789°′NSEW', speed: .5 } }, .7)
     .from('.hero .lead, .hero .status, .hero .btns, .hero .h-top', { opacity: 0, y: 18, duration: .7, stagger: .08, ease: 'power3.out' }, .9)
-    .from('.quick a', { opacity: 0, y: 22, duration: .6, stagger: .06, ease: 'power3.out' }, 1.05);
+    .from('.quick a, .now', { opacity: 0, y: 22, duration: .6, stagger: .06, ease: 'power3.out' }, 1.05);
 
   function startIntro(){ intro.play(0); }
   if (loading) {
@@ -1451,9 +1494,6 @@ var LAND = 'AAAAAAAAABAAQkBIAAhJIQshJISEhIAUEBJCAkDAAJk6IQNgYAAMhJEDMjIADsTYgZk5
     gsap.ticker.add(tick);
   } else startIntro();
 
-  /* мягкий параллакс фото первого экрана */
-  gsap.to('#heroPhoto img', { yPercent: 8, ease: 'none', scrollTrigger: { trigger: '#heroPhoto', start: 'top top', end: 'bottom top', scrub: true } });
-
   /* манифест закрашивается по буквам */
   document.fonts.ready.then(function(){
     var ms = SplitText.create('#manifest', { type: 'words,chars', charsClass: 'mc' });
@@ -1464,7 +1504,7 @@ var LAND = 'AAAAAAAAABAAQkBIAAhJIQshJISEhIAUEBJCAkDAAJk6IQNgYAAMhJEDMjIADsTYgZk5
   /* Motion: появление и пружинки */
   if (window.Motion) {
     var M = Motion;
-    $$('.sec-head, .drink-strip, .vit > *, .place > *, .feat > div, .art > *, .score, .bars, .q, .pass-form, .pass-prev, .ct-card, .map, .more-shops > div').forEach(function(el){
+    $$('.sec-head, .now, .vit > *, .place > *, .feat > div, .art > *, .score, .bars, .q, .pass-form, .pass-prev, .ct-card, .map, .more-shops > div').forEach(function(el){
       el.style.opacity = 0;
       M.inView(el, function(){ M.animate(el, { opacity: [0, 1], y: [26, 0] }, { type: 'spring', bounce: .18, duration: .8 }); }, { amount: .15 });
     });
