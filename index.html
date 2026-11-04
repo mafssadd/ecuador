@@ -148,14 +148,31 @@ html.js-loading body{overflow:hidden}
 .story.live .st-words{display:grid;position:absolute;inset:0;z-index:1;mix-blend-mode:multiply;pointer-events:none;place-items:center}
 .st-w{grid-area:1/1;font:400 min(14vw,230px)/.9 var(--disp);color:#D8C3A9;white-space:nowrap;opacity:0}
 .st-w .ch{display:inline-block;will-change:transform}
-#stCv{display:none}
-.story.live #stCv{display:block;position:absolute;inset:0;width:100%;height:100%;z-index:2}
+.st-objs{display:none}
+.story.live .st-objs{display:block;position:absolute;inset:0;z-index:2;pointer-events:none}
+.st-obj{position:absolute;opacity:0;will-change:transform,opacity}
+.st-c{height:100%;transform:translateX(-50%);position:relative}
+.st-c canvas{display:block;height:100%;width:auto}
+.st-c::after{content:"";position:absolute;left:18%;right:18%;bottom:1%;height:5%;border-radius:50%;background:radial-gradient(closest-side,rgba(60,35,20,.28),transparent);z-index:-1}
+#objG{left:63%;top:2%;height:96%}
+#objG .st-c::after{bottom:5%}
+#objP .st-c::after{bottom:18%}
+#objC .st-c::after{bottom:26%;left:14%;right:14%}
+#objP{left:61%;top:7%;height:88%}
+#objC{left:63%;top:24%;height:66%}
+.st-blob{position:absolute;left:0;top:0;height:auto;width:clamp(220px,26vw,440px);translate:-50% -50%;opacity:0;will-change:transform}
+.st-blob.s2{width:clamp(160px,18vw,300px)}
+.st-blob.s3{width:clamp(120px,12vw,210px)}
+.st-beans{position:absolute;left:63%;top:62%}
+.st-bean{position:absolute;height:auto;width:clamp(70px,7vw,110px);translate:-50% -50%;opacity:0}
 .st-ch{position:relative;padding:28px 0}
 .st-ch h1,.st-ch h2{font:900 clamp(34px,3.4vw,52px)/1 var(--f);letter-spacing:-.03em;margin:8px 0 14px}
 .st-ch .label{color:var(--acc-ink);font-family:var(--mono);letter-spacing:.06em;margin:0}
 .st-ch .tx{font-weight:300;font-size:17.5px;line-height:1.45;margin:0;color:#3D2A1F;max-width:420px}
 .st-ch .btns{margin-top:20px}
-.st-img{margin-top:18px;aspect-ratio:4/3;max-width:520px}
+.st-img{margin-top:18px;aspect-ratio:1;max-width:520px;background:none}
+.st-img img{object-fit:contain}
+.st-img::after{content:none}
 .story.live .st-ch{position:absolute;z-index:3;left:max(16px,calc((100% - 1240px) / 2));bottom:clamp(28px,8vh,84px);width:min(420px,36%);padding:0;opacity:0;visibility:hidden;will-change:opacity,transform}
 .story.live .st-img{display:none}
 .story.live .st-ch.on-acc,.story.live .st-ch.on-acc .tx{color:#fff}
@@ -414,6 +431,9 @@ html.js-loading body{overflow:hidden}
   .st-read b{font-size:15px;margin:2px 0 3px}
   .story.live .st-hint{display:none}
   .st-wrap-static{padding-inline:16px}
+  #objG,#objP{left:50%;top:3%;height:50%}
+  #objC{left:50%;top:10%;height:38%}
+  .st-beans{left:50%;top:30%}
   .quick{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-inline:-16px;padding-inline:16px;scroll-padding-inline:16px}
   .quick::-webkit-scrollbar{display:none}
   .quick a{flex:0 0 44%;min-height:96px;scroll-snap-align:start}
@@ -518,7 +538,13 @@ html.js-loading body{overflow:hidden}
   <div class="st-pin" id="stPin">
     <div class="st-panel" id="stPanel" aria-hidden="true"></div>
     <div class="st-words" aria-hidden="true"><span class="st-w">ПОМОЛ</span><span class="st-w">ПРОЛИВ</span><span class="st-w">ГЛОТОК</span></div>
-    <canvas id="stCv" aria-hidden="true"></canvas>
+    <div class="st-objs" aria-hidden="true">
+      <img class="st-blob" src="img/3d/blob_0.webp" width="520" height="520" alt=""><img class="st-blob s2" src="img/3d/blob_1.webp" width="520" height="520" alt=""><img class="st-blob s3" src="img/3d/blob_2.webp" width="520" height="520" alt=""><img class="st-blob s2" src="img/3d/blob_2.webp" width="520" height="520" alt=""><img class="st-blob s3" src="img/3d/blob_1.webp" width="520" height="520" alt="">
+      <div class="st-obj" id="objG"><div class="st-c"><canvas id="seqG" width="800" height="1000"></canvas></div></div>
+      <div class="st-obj" id="objP"><div class="st-c"><canvas id="seqP" width="1100" height="1000"></canvas></div></div>
+      <div class="st-obj" id="objC"><div class="st-c"><canvas id="seqC" width="900" height="800"></canvas></div></div>
+      <div class="st-beans"><img class="st-bean" src="img/3d/bean_0.webp" alt=""><img class="st-bean" src="img/3d/bean_1.webp" alt=""><img class="st-bean" src="img/3d/bean_2.webp" alt=""><img class="st-bean" src="img/3d/bean_0.webp" alt=""><img class="st-bean" src="img/3d/bean_1.webp" alt=""><img class="st-bean" src="img/3d/bean_2.webp" alt=""></div>
+    </div>
     <div class="wrap st-wrap-static">
     <div class="st-ch">
       <p class="label">01 · 02°00′ S · широта с логотипа</p>
@@ -526,21 +552,21 @@ html.js-loading body{overflow:hidden}
       <p class="tx">100% арабика свежей обжарки. Мелем зерно перед каждой чашкой — на Каштановой, 14 в Одинцово-1.</p>
       <div class="status" id="status" aria-live="polite"><span class="dot"></span><span><span id="stText">Пн–Сб 08:00–21:00, Вс 09:00–21:00</span><small id="stSub">Каштановая ул., 14 · у входа вывеска ECUADOR</small></span></div>
       <div class="btns"><a class="btn btn-dark" href="#menu">Собрать предзаказ</a><a class="btn" href="https://yandex.ru/maps/?rtext=~55.654950%2C37.273525&amp;rtt=pd" target="_blank" rel="noopener">Маршрут</a></div>
-      <figure class="ph st-img"><img src="img/machine-600.webp" width="600" height="800" loading="lazy" alt="Бар кофейни Ecuador с кофемашиной"></figure>
+      <figure class="ph st-img"><img src="img/3d/g_000.webp" width="800" height="1000" loading="lazy" alt="Кофемолка ECUADOR со стеклянным бункером, в него сыплются зёрна"></figure>
     </div>
     <div class="st-ch on-acc">
       <p class="label">02 · 05°09′ S · Перу, Сан-Игнасио</p>
       <h2>Фильтр-кофе</h2>
       <p class="tx">Мытая обработка, обжарка специально под фильтр. В чашке — грейпфрут, красная смородина и чёрный чай. Без молока и сиропов, только вкус зерна.</p>
       <div class="btns"><a class="btn btn-light" href="#menu">Посмотреть меню</a></div>
-      <figure class="ph st-img"><img src="img/decaf-600.webp" width="600" height="800" loading="lazy" alt="Кофейные зёрна в чашке и пачка зерна Ecuador"></figure>
+      <figure class="ph st-img"><img src="img/3d/p_039.webp" width="1100" height="1000" loading="lazy" alt="Чайник над воронкой V60, кофе в стеклянном графине"></figure>
     </div>
     <div class="st-ch">
       <p class="label">03 · 55°39′ N · Каштановая, 14</p>
-      <h2>Капучино от 190 ₽</h2>
+      <h2>Капучино от 190&nbsp;₽</h2>
       <p class="tx">Густая пенка, латте-арт и двадцать авторских рафов: лаванда, халва, фисташка, тыква с карамелью. Сварим как любите — погорячей, похолодней.</p>
       <div class="btns"><a class="btn btn-dark" href="#menu">Найти свой кофе</a></div>
-      <figure class="ph st-img"><img src="img/latte-600.webp" width="600" height="772" loading="lazy" alt="Капучино с латте-артом"></figure>
+      <figure class="ph st-img"><img src="img/3d/c_012.webp" width="900" height="800" loading="lazy" alt="Капучино с латте-артом на блюдце"></figure>
     </div>
     </div>
     <div class="st-hud" aria-hidden="true">
@@ -553,7 +579,7 @@ html.js-loading body{overflow:hidden}
 
 <section class="wrap quick-sec" id="quick" aria-label="Быстрые ответы">
   <div class="owner-note" style="margin-top:14px"><span class="on-t">Режим владельца · как работает сайт</span>Жёлтые заметки видите только вы, гости их не увидят. Сайт собран на ваших данных: часы, фото и отзывы с Яндекс Карт, цены — с фото вашей меню-доски, зерно и новинки — из Telegram-канала. Статус «открыто до 21:00» считается сам по московскому времени. <b>Главное здесь — предзаказ к нужному времени</b>: гость из ЖК заказывает по дороге и забирает без очереди.</div>
-  <div class="owner-note"><span class="on-t">Для владельца · история на первом экране</span>Помол, пролив, глоток — три шага, через которые проходит каждая ваша чашка, а сбоку бежит широта: от −2°00′ с вашего логотипа через Перу, откуда ваш фильтр, до Каштановой, 14. Кофемолка, чайник и чашка нарисованы в 3D прямо на сайте — <b>гость запоминает такое и пересылает</b>. Это объясняет, за что он платит 300 ₽ за раф: зерно, помол, вода, руки бариста.</div>
+  <div class="owner-note"><span class="on-t">Для владельца · история на первом экране</span>Помол, пролив, глоток — три шага, через которые проходит каждая ваша чашка, а сбоку бежит широта: от −2°00′ с вашего логотипа через Перу, откуда ваш фильтр, до Каштановой, 14. Кофемолка, чайник и чашка смоделированы и отрендерены в 3D специально для вас — <b>гость запоминает такое и пересылает</b>. Это объясняет, за что он платит 300 ₽ за раф: зерно, помол, вода, руки бариста.</div>
   <nav class="quick" aria-label="Быстрые ответы">
     <a href="#menu"><b>от <i>190 ₽</i></b><span>капучино 200 мл, цены с доски в зале</span></a>
     <a href="#menu"><b>−10%</b><span>если пришли со своим стаканом или термосом</span></a>
@@ -1171,19 +1197,17 @@ $$('.bar-it').forEach(function(b){
   window.__pass = { draw: draw };
 })();
 
-/* ---------- история «помол → пролив → глоток»: 3D-сцена на three.js ---------- */
+/* ---------- история «помол → пролив → глоток»: кадры, отрендеренные в Blender (Cycles) ---------- */
 (function(){
-  var sec = $('#story'), pin = $('#stPin'), cv = $('#stCv'), chs = $$('.st-ch', sec), words = $$('.st-w', sec), panel = $('#stPanel');
+  var sec = $('#story'), pin = $('#stPin'), chs = $$('.st-ch', sec), words = $$('.st-w', sec), panel = $('#stPanel');
   var latEl = $('#stLat'), placeEl = $('#stPlace'), mark = $('#stMark'), eqEl = $('#stEq'), hint = $('#stHint');
-  var U = 6, tu = 0, cu = 0, fixed = null, ready = false, visible = true, introV = 0, lastPlace = '';
+  var U = 6, tu = 0, cu = 0, fixed = null, introV = 0, lastPlace = '', visible = true;
   var q = new URLSearchParams(location.search);
   if (q.has('s')) fixed = clamp(parseFloat(q.get('s')) || 0, 0, 1) * U;
   if (q.has('s') || q.has('p')) { introV = 1; tu = cu = fixed || 0; }
-  var gl = false;
-  try { var tc = document.createElement('canvas'); gl = !!(tc.getContext('webgl') || tc.getContext('experimental-webgl')); } catch (e) {}
   var readyRes; var readyP = new Promise(function(r){ readyRes = r; });
   window.__story = { state: function(){ return { mode: 'static' }; }, ready: readyP, intro: function(){} };
-  if (reduce || !hasG || !gl) { sec.classList.add('static'); readyRes(); return; }
+  if (reduce || !hasG) { sec.classList.add('static'); readyRes(); return; }
   sec.classList.add('live');
   gsap.registerPlugin(SplitText);
   var wch = words.map(function(w){ return SplitText.create(w, { type: 'chars', charsClass: 'ch' }).chars; });
@@ -1197,14 +1221,42 @@ $$('.bar-it').forEach(function(b){
   eqEl.style.top = ((LMAX - 0) / (LMAX - LMIN) * 100) + '%';
   function chOp(u, a, b){ return seg(u, a - .3, a) * (1 - seg(u, b, b + .3)); }
   var CH = [[-1, 1.35], [2.4, 3.45], [4.55, 99]], WD = [[-1, 1.5], [2.15, 3.7], [4.3, 99]];
-  function dom(t){
+
+  /* кадры: g — кофемолка (крутится сама по кругу), p — пролив и c — чашка (идут за прокруткой) */
+  function seq(prefix, n){ var a = []; for (var i = 0; i < n; i++) a.push('img/3d/' + prefix + '_' + (i < 10 ? '00' : '0') + i + '.webp'); return a; }
+  var SEQ = { g: { src: seq('g', 24), img: [], el: $('#seqG') }, p: { src: seq('p', 40), img: [], el: $('#seqP') }, c: { src: seq('c', 24), img: [], el: $('#seqC') } };
+  function load(k){
+    var s = SEQ[k];
+    return Promise.all(s.src.map(function(u, i){ var im = new Image(); im.decoding = 'async'; im.src = u; s.img[i] = im; return im.decode().catch(function(){}); }));
+  }
+  var shown = { g: -1, p: -1, c: -1 };
+  function show(k, i){
+    var s = SEQ[k]; i = clamp(Math.round(i), 0, s.src.length - 1);
+    if (shown[k] === i) return;
+    var im = s.img[i]; if (!im || !im.complete || !im.naturalWidth) return;
+    var cv = s.el, x = cv.getContext('2d');
+    if (cv.width !== im.naturalWidth) { cv.width = im.naturalWidth; cv.height = im.naturalHeight; }
+    x.clearRect(0, 0, cv.width, cv.height); x.drawImage(im, 0, 0); shown[k] = i;
+  }
+  load('g').then(function(){ readyRes(); return load('p'); }).then(function(){ return load('c'); });
+  setTimeout(readyRes, 4000);
+
+  var objG = $('#objG'), objP = $('#objP'), objC = $('#objC'), blobs = $$('.st-blob', sec), beans = $$('.st-bean', sec);
+  /* капли: [x%, y%] в главах 1–3 */
+  var BP = [[[30, 18], [44, 22], [36, 16]], [[86, 70], [90, 18], [88, 62]], [[80, 12], [60, 80], [62, 14]], [[46, 84], [30, 80], [44, 82]], [[94, 40], [70, 46], [94, 34]]];
+  function tr(el, x, y, s, o){ el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + s.toFixed(3) + ')'; el.style.opacity = o.toFixed(3); el.style.visibility = o < .01 ? 'hidden' : 'visible'; }
+
+  function frame(time, dt){
+    if (fixed === null) cu += (tu - cu) * (1 - Math.exp(-(dt || 16) / 1000 * 6)); else cu = fixed;
+    if (Math.abs(tu - cu) < 1e-4) cu = tu;
+    var t = time || 0, H = pin.clientHeight, W = pin.clientWidth, iv = introV;
     chs.forEach(function(el, i){
-      var o = chOp(cu, CH[i][0], CH[i][1]) * (i === 0 ? sm(introV * 1.4 - .3) : 1);
+      var o = chOp(cu, CH[i][0], CH[i][1]) * (i === 0 ? sm(iv * 1.4 - .3) : 1);
       el.style.opacity = o.toFixed(3); el.style.visibility = o < .01 ? 'hidden' : 'visible';
       el.style.transform = 'translateY(' + ((1 - o) * 22).toFixed(1) + 'px)';
     });
     words.forEach(function(w, i){
-      var o = chOp(cu, WD[i][0], WD[i][1]) * (i === 0 ? sm(introV * 1.2) : 1), n = wch[i].length, mid = (n - 1) / 2;
+      var o = chOp(cu, WD[i][0], WD[i][1]) * (i === 0 ? sm(iv * 1.2) : 1), n = wch[i].length, mid = (n - 1) / 2;
       w.style.opacity = o.toFixed(3);
       if (o > .01) wch[i].forEach(function(c, k){ c.style.transform = 'translate(' + ((1 - o) * (k - mid) * 46).toFixed(1) + 'px,' + (Math.sin(t * 1.4 + k * .7) * 6 + (1 - o) * 40).toFixed(1) + 'px)'; });
     });
@@ -1216,233 +1268,40 @@ $$('.bar-it').forEach(function(b){
     var place = Math.abs(lat) < 1.2 ? 'пересекаем экватор' : lat < -4 ? 'Перу, Сан-Игнасио' : lat < 0 ? 'Эквадор' : lat > 55 ? 'Каштановая, 14' : 'летим на север';
     if (place !== lastPlace) { lastPlace = place; gsap.to(placeEl, { duration: .5, scrambleText: { text: place, chars: 'абвгдежзик0123456789', speed: .6 } }); }
     hint.style.opacity = cu > .25 ? 0 : 1;
+    if (!visible) return;
+    /* кофемолка: въезжает сверху при загрузке, уезжает вверх во 2-й главе; зёрна сыплются сами (12 кадров/с) */
+    var gUp = seg(cu, 1.4, 2.3), gO = sm(iv * 1.3) * (1 - seg(cu, 1.9, 2.3));
+    tr(objG, 0, -(1 - iv) * 60 - gUp * H * 1.1 + Math.sin(t * .9) * 6, 1, gO);
+    if (gO > .01) show('g', Math.floor(t * 12) % 24);
+    /* пролив: поднимается снизу, кадры чайника и графина — по прокрутке */
+    var pi = seg(cu, 1.7, 2.55), po = seg(cu, 3.6, 4.4), pv = pi * (1 - seg(cu, 4.1, 4.4));
+    tr(objP, 0, (1 - pi) * H * .9 - po * H * 1.1, 1, pv);
+    if (pv > .01) show('p', seg(cu, 2.3, 3.7) * 39);
+    /* чашка: снизу, поворачивается по прокрутке */
+    var ci = seg(cu, 3.95, 4.75);
+    tr(objC, 0, (1 - ci) * H * .9 + Math.sin(t * .8) * 5, 1 - seg(cu, 5.5, 6) * .08, ci);
+    if (ci > .01) show('c', seg(cu, 4.3, 6) * 23);
+    /* капли и зёрна */
+    var a1 = seg(cu, 1.5, 2.5), a2 = seg(cu, 3.7, 4.7);
+    blobs.forEach(function(b, j){
+      var P = BP[j], x = lerp(lerp(P[0][0], P[1][0], a1), P[2][0], a2), y = lerp(lerp(P[0][1], P[1][1], a1), P[2][1], a2);
+      tr(b, x / 100 * W, y / 100 * H + Math.sin(t * .7 + j * 1.3) * 10 - (1 - iv) * 80, .7 + .3 * iv, sm(iv * 1.5));
+      b.style.rotate = (Math.sin(t * .3 + j) * 12).toFixed(1) + 'deg';
+    });
+    beans.forEach(function(b, j){
+      var ang = j / beans.length * Math.PI * 2 + t * .3, o = ci * (1 - seg(cu, 5.6, 6));
+      tr(b, Math.cos(ang) * W * .17, Math.sin(ang) * H * .07 + Math.sin(t + j) * 8, .75 + .25 * Math.sin(ang), o);
+      b.style.zIndex = Math.sin(ang) > 0 ? 3 : 1;
+    });
   }
-
   ScrollTrigger.create({ trigger: sec, start: function(){ return 'top ' + HH + 'px'; }, end: 'bottom bottom', invalidateOnRefresh: true,
     onUpdate: function(s){ if (fixed === null) tu = s.progress * U; } });
   new IntersectionObserver(function(es){ visible = es[0].isIntersecting; }, { rootMargin: '100px 0px' }).observe(sec);
-
-  var s3 = document.createElement('script'); s3.src = 'js/three.min.js';
-  s3.onload = function(){ try { build(); } catch (e) { console.warn('3D не собрался', e); sec.classList.remove('live'); sec.classList.add('static'); } readyRes(); };
-  s3.onerror = function(){ sec.classList.remove('live'); sec.classList.add('static'); readyRes(); };
-  document.head.appendChild(s3);
-
-  var T, R, scene, cam, W = 1, H = 1, mob = false, X0 = 1.25, Y0 = 0, S = 1;
-  var G1, P, kettle, tip, C, stream, drip, liquidPlane, steam = [], blobs = [], fall, fallN = 14, orbit, beanGeo, tmpM, v1, v2;
-
-  function canvasTex(w, h, draw){ var c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); var t = new T.CanvasTexture(c); t.encoding = T.sRGBEncoding; t.anisotropy = 4; return t; }
-  function lathe(pts, mat, segs){ return new T.Mesh(new T.LatheGeometry(pts.map(function(p){ return new T.Vector2(p[0], p[1]); }), segs || 72), mat); }
-  function room(){
-    var s = new T.Scene();
-    s.add(new T.Mesh(new T.BoxGeometry(24, 16, 24), new T.MeshBasicMaterial({ color: 0x5c4a3e, side: T.BackSide })));
-    function lamp(w, h, x, y, z, c, k){ var m = new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ color: new T.Color(c).multiplyScalar(k), side: T.DoubleSide })); m.position.set(x, y, z); m.lookAt(0, 0, 0); s.add(m); }
-    lamp(12, 5, 0, 7.5, 1, 0xffffff, 3.2); lamp(5, 8, -10, 1, 4, 0xffe0c0, 2.4); lamp(5, 8, 10, 2, -2, 0xfff4ea, 1.5); lamp(10, 4, 0, 0, 11, 0xffffff, 1.1);
-    return s;
-  }
-  function makeBean(){
-    var g = new T.SphereGeometry(1, 28, 18), p = g.attributes.position, v = new T.Vector3();
-    for (var i = 0; i < p.count; i++) {
-      v.fromBufferAttribute(p, i); v.x *= .62; v.y *= .44; v.z *= .9;
-      if (v.y > 0) { v.y *= .5; v.y -= .13 * Math.exp(-(v.x * v.x) / .01) * (1 - v.z * v.z / .81); }
-      p.setXYZ(i, v.x, v.y, v.z);
-    }
-    g.computeVertexNormals(); g.scale(.075, .075, .075); return g;
-  }
-  function makeBlob(seed){
-    var g = new T.SphereGeometry(1, 72, 54), p = g.attributes.position, v = new T.Vector3();
-    for (var i = 0; i < p.count; i++) {
-      v.fromBufferAttribute(p, i);
-      var n = Math.sin(v.x * 1.9 + seed) * Math.sin(v.y * 1.6 + seed * 2.1) * .55 + Math.sin(v.z * 2.3 + seed * 3.3) * .35;
-      v.multiplyScalar(1 + .24 * n); p.setXYZ(i, v.x, v.y, v.z);
-    }
-    g.computeVertexNormals(); return g;
-  }
-
-  function build(){
-    T = window.THREE;
-    R = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
-    R.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75));
-    R.outputEncoding = T.sRGBEncoding; R.toneMapping = T.ACESFilmicToneMapping; R.toneMappingExposure = .95;
-    R.localClippingEnabled = true;
-    scene = new T.Scene(); cam = new T.PerspectiveCamera(30, 1, .1, 100); cam.position.set(0, 0, 12);
-    var pm = new T.PMREMGenerator(R); scene.environment = pm.fromScene(room(), .04).texture; pm.dispose();
-    scene.add(new T.HemisphereLight(0xfff4e8, 0x3a2a20, .35));
-    var key = new T.DirectionalLight(0xfff0e0, 1.3); key.position.set(4, 6, 8); scene.add(key);
-    var rim = new T.DirectionalLight(0xffcfa8, .9); rim.position.set(-6, 3, -4); scene.add(rim);
-    tmpM = new T.Matrix4(); v1 = new T.Vector3(); v2 = new T.Vector3();
-
-    /* материалы */
-    var black = new T.MeshStandardMaterial({ color: 0x121010, roughness: .3, metalness: 0, envMapIntensity: .3 });
-    var chrome = new T.MeshStandardMaterial({ color: 0xd8d4cf, roughness: .18, metalness: 1 });
-    var glass = new T.MeshPhysicalMaterial({ color: 0xffffff, roughness: .04, metalness: 0, transparent: true, opacity: .2, side: T.DoubleSide, depthWrite: false, clearcoat: 1, envMapIntensity: 1.6 });
-    var ceramic = new T.MeshPhysicalMaterial({ color: 0xf2ebe2, roughness: .32, clearcoat: .6, clearcoatRoughness: .25 });
-    var coffee = new T.MeshPhysicalMaterial({ color: 0x3a1c0e, roughness: .12, clearcoat: 1 });
-    var beanMat = new T.MeshPhysicalMaterial({ color: 0x2e160a, roughness: .5, clearcoat: .25, envMapIntensity: .7 });
-    var wood = new T.MeshStandardMaterial({ roughness: .55, map: canvasTex(512, 64, function(x, w, h){
-      x.fillStyle = '#7a4a2c'; x.fillRect(0, 0, w, h);
-      for (var i = 0; i < 90; i++) { x.strokeStyle = 'rgba(' + (40 + Math.random() * 40 | 0) + ',20,8,' + (.15 + Math.random() * .25) + ')'; x.lineWidth = 1 + Math.random() * 3; var xx = Math.random() * w; x.beginPath(); x.moveTo(xx, 0); x.bezierCurveTo(xx + 8, h * .3, xx - 8, h * .7, xx + 4, h); x.stroke(); }
-    }) });
-    var logo = new T.MeshStandardMaterial({ roughness: .4, metalness: .2, map: canvasTex(2048, 920, function(x, w, h){
-      x.fillStyle = '#1d1b1a'; x.fillRect(0, 0, w, h);
-      x.textAlign = 'center'; x.fillStyle = '#f2ebe2'; x.font = '900 104px Onest, Arial, sans-serif'; if ('letterSpacing' in x) x.letterSpacing = '14px'; x.fillText('ECUADOR', w / 2, 330);
-      if ('letterSpacing' in x) x.letterSpacing = '0px'; x.fillStyle = '#EA7A3C'; x.font = '400 46px "JetBrains Mono", monospace'; x.fillText('−2°00′ S', w / 2, 410);
-    }) });
-    beanGeo = makeBean();
-
-    /* 1. кофемолка */
-    G1 = new T.Group(); scene.add(G1);
-    G1.add(lathe([[0, -1.75], [.6, -1.75], [.65, -1.72], [.67, -1.62], [.63, -1.5], [0, -1.5]], black));
-    var body = new T.Mesh(new T.CylinderGeometry(.5, .55, 1.5, 72, 1, true, Math.PI, Math.PI * 2), logo); body.position.y = -.75; G1.add(body);
-    var band = new T.Mesh(new T.CylinderGeometry(.535, .552, .34, 72, 1, true), wood); band.position.y = -1.3; G1.add(band);
-    G1.add(lathe([[.5, 0], [.56, .02], [.57, .16], [.5, .19], [.36, .21], [0, .21]], chrome));
-    G1.add(lathe([[.34, .2], [.4, .45], [.6, 1.5], [.63, 1.66]], glass));
-    var rimT = new T.Mesh(new T.TorusGeometry(.63, .018, 12, 72), chrome); rimT.rotation.x = Math.PI / 2; rimT.position.y = 1.66; G1.add(rimT);
-    var dial = new T.Mesh(new T.CylinderGeometry(.14, .14, .1, 40), chrome); dial.rotation.z = Math.PI / 2; dial.position.set(.58, -.35, 0); G1.add(dial);
-        /* зёрна в бункере */
-    var inH = new T.InstancedMesh(beanGeo, beanMat, 110), e = new T.Euler(), qq = new T.Quaternion(), sc = new T.Vector3(1, 1, 1);
-    for (var i = 0; i < 110; i++) {
-      var y = .32 + Math.pow(Math.random(), .8) * .85, rmax = lerp(.34, .6, (y - .2) / 1.3) - .07, rr = Math.sqrt(Math.random()) * rmax, a = Math.random() * Math.PI * 2;
-      e.set(Math.random() * 6, Math.random() * 6, Math.random() * 6); qq.setFromEuler(e);
-      tmpM.compose(v1.set(Math.cos(a) * rr, y, Math.sin(a) * rr), qq, sc); inH.setMatrixAt(i, tmpM);
-    }
-    G1.add(inH);
-    fall = new T.InstancedMesh(beanGeo, beanMat, fallN); fall.userData.seed = []; for (i = 0; i < fallN; i++) fall.userData.seed.push([Math.random(), (Math.random() - .5) * .3, (Math.random() - .5) * .3, Math.random() * 6]);
-    G1.add(fall);
-
-    /* 2. пролив: графин, воронка, чайник */
-    P = new T.Group(); scene.add(P);
-    P.add(lathe([[0, 0], [.5, 0], [.56, .08], [.58, .35], [.52, .7], [.36, .92], [.33, 1.0], [.37, 1.08]], glass));
-    liquidPlane = new T.Plane(new T.Vector3(0, -1, 0), 0);
-    var liq = new T.MeshPhysicalMaterial({ color: 0x3a1c0e, roughness: .1, clearcoat: 1, clippingPlanes: [liquidPlane], side: T.DoubleSide });
-    P.add(lathe([[0, .03], [.47, .03], [.53, .1], [.55, .35], [.49, .7], [.33, .9], [0, .9]], liq));
-    var collar = new T.Mesh(new T.CylinderGeometry(.42, .44, .22, 64, 1, true), wood); collar.position.y = .8; P.add(collar);
-    var dripper = lathe([[.1, 1.08], [.42, 1.08], [.42, 1.12], [.18, 1.14], [.6, 1.76], [.64, 1.8], [.6, 1.82], [.55, 1.76], [.15, 1.17], [0, 1.17]], ceramic);
-    P.add(dripper);
-    var bed = new T.Mesh(new T.CircleGeometry(.36, 48), coffee); bed.rotation.x = -Math.PI / 2; bed.position.y = 1.5; P.add(bed);
-    kettle = new T.Group(); P.add(kettle);
-    kettle.add(lathe([[0, 0], [.5, 0], [.56, .04], [.6, .2], [.6, .55], [.52, .82], [.36, .95], [.3, .98], [0, .98]], black));
-    kettle.add(lathe([[0, .98], [.14, .98], [.12, 1.05], [.05, 1.12], [0, 1.13]], wood));
-    var hc = new T.CatmullRomCurve3([new T.Vector3(.5, .85, 0), new T.Vector3(.95, .82, 0), new T.Vector3(1.05, .45, 0), new T.Vector3(.58, .18, 0)]);
-    kettle.add(new T.Mesh(new T.TubeGeometry(hc, 40, .055, 14), black));
-    var sc2 = new T.CatmullRomCurve3([new T.Vector3(-.45, .15, 0), new T.Vector3(-.85, .35, 0), new T.Vector3(-1.05, .85, 0), new T.Vector3(-1.2, 1.2, 0), new T.Vector3(-1.48, 1.27, 0)]);
-    kettle.add(new T.Mesh(new T.TubeGeometry(sc2, 60, .038, 12), black));
-    tip = new T.Object3D(); tip.position.set(-1.5, 1.26, 0); kettle.add(tip);
-    kettle.position.set(1.4, 2.3, 0);
-    var water = new T.MeshPhysicalMaterial({ color: 0xe8cfae, roughness: .05, transparent: true, opacity: .7, clearcoat: 1 });
-    var sg = new T.CylinderGeometry(.022, .018, 1, 12, 1, true); sg.translate(0, -.5, 0);
-    stream = new T.Mesh(sg, water); scene.add(stream);
-    var dg = new T.CylinderGeometry(.012, .012, 1, 8, 1, true); dg.translate(0, -.5, 0);
-    drip = new T.Mesh(dg, coffee); scene.add(drip);
-    var steamTex = canvasTex(128, 128, function(x, w){ var g = x.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2); g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, w, w); });
-    for (i = 0; i < 5; i++) { var sp = new T.Sprite(new T.SpriteMaterial({ map: steamTex, transparent: true, depthWrite: false, opacity: 0 })); sp.userData.ph = i / 5; P.add(sp); steam.push(sp); }
-
-    /* 3. чашка с латте-артом */
-    C = new T.Group(); scene.add(C);
-    C.add(lathe([[0, 0], [.34, 0], [.38, .03], [.52, .16], [.64, .45], [.68, .66], [.69, .7], [.65, .7], [.62, .5], [.5, .2], [.3, .12], [0, .12]], ceramic));
-    C.add(lathe([[0, -.05], [.9, -.05], [1.06, .01], [1.1, .05], [1.04, .05], [.9, .01], [.42, -.01], [0, -.01]], ceramic));
-    var latte = new T.MeshStandardMaterial({ roughness: .55, map: canvasTex(512, 512, function(x, w){
-      var g = x.createRadialGradient(w / 2, w / 2, 20, w / 2, w / 2, w / 2); g.addColorStop(0, '#b07a4c'); g.addColorStop(.75, '#8a5530'); g.addColorStop(1, '#5e3418'); x.fillStyle = g; x.fillRect(0, 0, w, w);
-      x.filter = 'blur(3px)'; x.fillStyle = '#f5e8d5';
-      function heart(cx, cy, s){ x.beginPath(); x.moveTo(cx, cy + s * .55); x.bezierCurveTo(cx - s * 1.1, cy - s * .1, cx - s * .55, cy - s * .85, cx, cy - s * .32); x.bezierCurveTo(cx + s * .55, cy - s * .85, cx + s * 1.1, cy - s * .1, cx, cy + s * .55); x.fill(); }
-      heart(256, 300, 150); x.fillStyle = '#9a643c'; heart(256, 290, 95); x.fillStyle = '#f5e8d5'; heart(256, 280, 62); x.fillStyle = '#9a643c'; heart(256, 272, 30);
-      x.filter = 'blur(1.5px)'; x.strokeStyle = '#f5e8d5'; x.lineWidth = 7; x.beginPath(); x.moveTo(256, 120); x.lineTo(256, 400); x.stroke();
-    }) });
-    var surf = new T.Mesh(new T.CircleGeometry(.635, 72), latte); surf.rotation.x = -Math.PI / 2; surf.position.y = .6; C.add(surf);
-    var handle = new T.Mesh(new T.TorusGeometry(.2, .055, 20, 48, Math.PI * 1.3), ceramic); handle.position.set(.72, .4, 0); handle.rotation.z = -Math.PI * .65; C.add(handle);
-    orbit = new T.InstancedMesh(beanGeo, beanMat, 8); orbit.userData.seed = []; for (i = 0; i < 8; i++) orbit.userData.seed.push([i / 8 * Math.PI * 2, .3 + Math.random() * .6, Math.random() * 6]);
-    scene.add(orbit);
-
-    /* капли-«пластилин» */
-    var BL = [[0xC47A44, .55], [0xE5672A, .38], [0xEBCBA6, .46], [0xC47A44, .3], [0xE5672A, .24]];
-    BL.forEach(function(b, i){
-      var m = new T.Mesh(makeBlob(i * 1.7 + 1), new T.MeshPhysicalMaterial({ color: b[0], roughness: .38, clearcoat: .6, clearcoatRoughness: .3, envMapIntensity: .65 }));
-      m.scale.setScalar(b[1]); m.userData.r = b[1]; m.userData.ph = i * 1.3; scene.add(m); blobs.push(m);
-    });
-
-    resize(); new ResizeObserver(resize).observe(pin);
-    ready = true;
-  }
-  /* где лежат капли в каждой главе: [x, y, z] на компьютере, x зеркалится для телефона */
-  var BPOS = [
-    [[-1.2, 2.1, -1.5], [3.6, -1.4, -.5], [3.2, 2.2, -2], [-2.6, -2.2, -.8], [.2, -2.6, 1]],
-    [[-2.8, 1.9, -1], [3.9, 1.6, -1.5], [2.9, -2.1, -.4], [-1.4, -2.4, .6], [-3.6, -.4, -2]],
-    [[-1.6, 2.3, -1.2], [3.5, 1.2, -.8], [3.3, -2.3, -1.4], [-2.2, -1.9, .4], [.6, 2.6, -2]]
-  ];
-  function resize(){
-    if (!R) return;
-    W = pin.clientWidth; H = pin.clientHeight; if (!W || !H) return;
-    R.setSize(W, H, false); cam.aspect = W / H; cam.updateProjectionMatrix();
-    mob = W < 760; X0 = mob ? 0 : Math.min(1.6, 1.25 * cam.aspect / 1.6); Y0 = mob ? 1.05 : -.05; S = mob ? .62 : 1;
-  }
-  var lastT = 0;
-  function frame(time, dt){
-    if (fixed === null) cu += (tu - cu) * (1 - Math.exp(-(dt || 16) / 1000 * 6)); else cu = fixed;
-    if (Math.abs(tu - cu) < 1e-4) cu = tu;
-    var t = time || 0;
-    dom(t);
-    if (!ready || !visible) return;
-    var iv = introV;
-    /* кофемолка */
-    var gUp = seg(cu, 1.4, 2.3);
-    G1.visible = gUp < .999;
-    G1.position.set(X0, Y0 + .2 - (1 - iv) * 7 + gUp * 8, 0); G1.scale.setScalar(S);
-    G1.rotation.set(.1 + gUp * .3, Math.sin(t * .5) * .22 + cu * .5, gUp * .25);
-    if (G1.visible) {
-      for (var i = 0; i < fallN; i++) {
-        var sd = fall.userData.seed[i], ph = (t * .55 + sd[0]) % 1;
-        v1.set(sd[1] * (1 - ph), 4.2 - ph * 3.1, sd[2] * (1 - ph));
-        tmpM.makeRotationFromEuler(new T.Euler(t * 3 + sd[3], t * 2 + sd[3], 0)); tmpM.setPosition(v1); fall.setMatrixAt(i, tmpM);
-      }
-      fall.instanceMatrix.needsUpdate = true;
-    }
-    /* пролив */
-    var pIn = seg(cu, 1.7, 2.55), pOut = seg(cu, 3.6, 4.4);
-    P.visible = pIn > .001 && pOut < .999;
-    P.position.set(X0 - (mob ? .35 : .55) * S, Y0 - 1.55 * S - (1 - pIn) * 8 + pOut * 9, 0); P.scale.setScalar(S);
-    P.rotation.set(.16, -.3 + (1 - pIn) * .7 + Math.sin(t * .4) * .05, 0);
-    var k = seg(cu, 2.35, 2.8) * (1 - seg(cu, 3.4, 3.7));
-    kettle.rotation.z = k * .6;
-    P.updateMatrixWorld(true);
-    tip.getWorldPosition(v1); P.worldToLocal(v1); kettle.position.x += .06 - v1.x; P.updateMatrixWorld(true);
-    var lvl = seg(cu, 2.7, 3.55);
-    v2.set(0, .04 + lvl * .82, 0); P.localToWorld(v2); liquidPlane.constant = v2.y;
-    var pouring = P.visible && k > .9;
-    stream.visible = pouring;
-    if (pouring) { tip.getWorldPosition(v1); v2.set(0, 1.62, 0); P.localToWorld(v2); stream.position.copy(v1); stream.scale.set(S, Math.max(.01, v1.y - v2.y), S); }
-    drip.visible = P.visible && lvl > 0 && lvl < 1 && cu < 3.7;
-    if (drip.visible) { v1.set(0, 1.08, 0); P.localToWorld(v1); v2.set(0, .04 + lvl * .82, 0); P.localToWorld(v2); drip.position.copy(v1); drip.scale.set(S, Math.max(.01, v1.y - v2.y), S); }
-    steam.forEach(function(sp){ var ph = (t * .25 + sp.userData.ph) % 1; sp.position.set(Math.sin(ph * 6 + sp.userData.ph * 9) * .12, 1.9 + ph * 1.1, .1); sp.scale.setScalar(.35 + ph * .5); sp.material.opacity = Math.sin(ph * Math.PI) * .45 * seg(cu, 2.6, 3); });
-    /* чашка */
-    var cIn = seg(cu, 3.95, 4.75), cOut = seg(cu, 5.5, 6);
-    C.visible = cIn > .001;
-    C.position.set(X0 + (mob ? 0 : .15), Y0 - .75 * S - (1 - cIn) * 8 + cOut * .6, 0);
-    C.scale.setScalar(S * 1.35 * (1 - cOut * .15));
-    C.rotation.set(.5 + (1 - cIn) * .6, -.6 + Math.sin(t * .35) * .2 + cu * .25, 0);
-    orbit.visible = C.visible;
-    if (orbit.visible) {
-      for (i = 0; i < 8; i++) {
-        var o = orbit.userData.seed[i], ang = o[0] + t * .35;
-        v1.set(C.position.x + Math.cos(ang) * 1.9 * S, C.position.y + .5 * S + Math.sin(t * .8 + o[2]) * .25 + (o[1] - .6) * S, Math.sin(ang) * 1.2 * S);
-        tmpM.makeRotationFromEuler(new T.Euler(t + o[2], t * .7 + o[2], 0)); tmpM.scale(v2.set(1.6 * S, 1.6 * S, 1.6 * S)); tmpM.setPosition(v1); orbit.setMatrixAt(i, tmpM);
-      }
-      orbit.instanceMatrix.needsUpdate = true;
-    }
-    /* капли */
-    var a1 = seg(cu, 1.5, 2.5), a2 = seg(cu, 3.7, 4.7);
-    blobs.forEach(function(b, j){
-      var A = BPOS[0][j], B = BPOS[1][j], Cc = BPOS[2][j], f = mob ? .55 : 1;
-      var x = lerp(lerp(A[0], B[0], a1), Cc[0], a2), y = lerp(lerp(A[1], B[1], a1), Cc[1], a2), z = lerp(lerp(A[2], B[2], a1), Cc[2], a2);
-      b.position.set(x * f + (mob ? 0 : .4), y * (mob ? .8 : 1) + (mob ? .6 : 0) + Math.sin(t * .7 + b.userData.ph) * .15 - (1 - iv) * 5, z);
-      b.rotation.set(t * .2 + j, t * .15 + j * 2, 0);
-      b.scale.setScalar(b.userData.r * (mob ? .7 : 1) * (.6 + .4 * iv));
-    });
-    R.render(scene, cam);
-  }
   gsap.ticker.add(frame);
   window.__story = {
     ready: readyP,
     intro: function(){ if (introV < 1) gsap.to({ v: 0 }, { v: 1, duration: 1.6, ease: 'back.out(1.1)', onUpdate: function(){ introV = this.targets()[0].v; } }); },
-    state: function(){ return { mode: ready ? 'live' : 'loading', u: +cu.toFixed(3), lat: +latAt(cu).toFixed(2), place: lastPlace, grinder: !!(G1 && G1.visible), pour: !!(P && P.visible), stream: !!(stream && stream.visible), cup: !!(C && C.visible), steps: chs.map(function(c){ return +(+c.style.opacity).toFixed(2); }) }; },
+    state: function(){ return { mode: 'live', u: +cu.toFixed(3), lat: +latAt(cu).toFixed(2), place: lastPlace, frames: { g: shown.g, p: shown.p, c: shown.c }, grinder: +objG.style.opacity > .5, pour: +objP.style.opacity > .5, cup: +objC.style.opacity > .5, steps: chs.map(function(c){ return +(+c.style.opacity).toFixed(2); }) }; },
     set: function(p){ fixed = clamp(p, 0, 1) * U; tu = cu = fixed; }
   };
 })();
