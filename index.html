@@ -145,17 +145,18 @@ html.js-loading body{overflow:hidden}
 .st-panel{display:none}
 .story.live .st-panel{display:block;position:absolute;top:0;bottom:0;left:0;width:58%;background:var(--acc);transform:translateX(-101%);z-index:0}
 .st-words{display:none}
-.story.live .st-words{display:grid;position:absolute;inset:0;z-index:1;mix-blend-mode:multiply;pointer-events:none;place-items:center}
-.st-w{grid-area:1/1;font:400 min(14vw,230px)/.9 var(--disp);color:#D8C3A9;white-space:nowrap;opacity:0}
-.st-w .ch{display:inline-block;will-change:transform}
+.story.live .st-words{display:grid;position:absolute;inset:0;z-index:1;pointer-events:none;place-items:start center;padding-top:clamp(0px,4vh,40px)}
+.st-w{grid-area:1/1;position:relative;width:min(88vw,1380px);aspect-ratio:10/3;opacity:0}
+.st-w img{position:absolute;inset:0;width:100%;height:100%;will-change:transform}
 .st-objs{display:none}
 .story.live .st-objs{display:block;position:absolute;inset:0;z-index:2;pointer-events:none}
 .st-obj{position:absolute;opacity:0;will-change:transform,opacity}
 .st-c{height:100%;transform:translateX(-50%);position:relative}
 .st-c canvas{display:block;height:100%;width:auto}
 .st-c::after{content:"";position:absolute;left:18%;right:18%;bottom:1%;height:5%;border-radius:50%;background:radial-gradient(closest-side,rgba(60,35,20,.28),transparent);z-index:-1}
-#objG{left:63%;top:2%;height:96%}
-#objG .st-c::after{bottom:5%}
+#objG{left:63%;top:-34%;height:130%}
+#objG .st-c::after{bottom:3%}
+#objG canvas + canvas{position:absolute;left:0;top:0}
 #objP .st-c::after{bottom:18%}
 #objC .st-c::after{bottom:26%;left:14%;right:14%}
 #objP{left:61%;top:7%;height:88%}
@@ -417,8 +418,8 @@ html.js-loading body{overflow:hidden}
   .story.live{height:calc(100svh + 6 * 55svh)}
   .story.live .st-pin{height:calc(100svh - var(--hh) - 76px)}
   .story.live .st-panel{width:100%}
-  .story.live .st-words{place-items:start center;padding-top:20%}
-  .st-w{font-size:12vw}
+  .story.live .st-words{place-items:start center;padding-top:16%}
+  .st-w{width:100vw}
   .story.live .st-ch{left:16px;right:16px;width:auto;bottom:58px}
   .st-ch h1,.st-ch h2{font-size:28px;margin:6px 0 8px}
   .st-ch .tx{font-size:15px}
@@ -431,7 +432,8 @@ html.js-loading body{overflow:hidden}
   .st-read b{font-size:15px;margin:2px 0 3px}
   .story.live .st-hint{display:none}
   .st-wrap-static{padding-inline:16px}
-  #objG,#objP{left:50%;top:3%;height:50%}
+  #objP{left:50%;top:3%;height:50%}
+  #objG{left:50%;top:-20%;height:73%}
   #objC{left:50%;top:10%;height:38%}
   .st-beans{left:50%;top:30%}
   .quick{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-inline:-16px;padding-inline:16px;scroll-padding-inline:16px}
@@ -537,10 +539,10 @@ html.js-loading body{overflow:hidden}
 <section class="story" id="story" aria-label="Кофейня Ecuador: помол, пролив, глоток">
   <div class="st-pin" id="stPin">
     <div class="st-panel" id="stPanel" aria-hidden="true"></div>
-    <div class="st-words" aria-hidden="true"><span class="st-w">ПОМОЛ</span><span class="st-w">ПРОЛИВ</span><span class="st-w">ГЛОТОК</span></div>
+    <div class="st-words" aria-hidden="true"><div class="st-w" data-w="ПОМОЛ"><img src="img/3d/w0_0.webp" width="2400" height="720" alt=""><img src="img/3d/w0_1.webp" width="2400" height="720" alt=""><img src="img/3d/w0_2.webp" width="2400" height="720" alt=""><img src="img/3d/w0_3.webp" width="2400" height="720" alt=""><img src="img/3d/w0_4.webp" width="2400" height="720" alt=""></div><div class="st-w" data-w="ПРОЛИВ"><img src="img/3d/w1_0.webp" width="2400" height="720" alt=""><img src="img/3d/w1_1.webp" width="2400" height="720" alt=""><img src="img/3d/w1_2.webp" width="2400" height="720" alt=""><img src="img/3d/w1_3.webp" width="2400" height="720" alt=""><img src="img/3d/w1_4.webp" width="2400" height="720" alt=""><img src="img/3d/w1_5.webp" width="2400" height="720" alt=""></div><div class="st-w" data-w="ГЛОТОК"><img src="img/3d/w2_0.webp" width="2400" height="720" alt=""><img src="img/3d/w2_1.webp" width="2400" height="720" alt=""><img src="img/3d/w2_2.webp" width="2400" height="720" alt=""><img src="img/3d/w2_3.webp" width="2400" height="720" alt=""><img src="img/3d/w2_4.webp" width="2400" height="720" alt=""><img src="img/3d/w2_5.webp" width="2400" height="720" alt=""></div></div>
     <div class="st-objs" aria-hidden="true">
       <img class="st-blob" src="img/3d/blob_0.webp" width="520" height="520" alt=""><img class="st-blob s2" src="img/3d/blob_1.webp" width="520" height="520" alt=""><img class="st-blob s3" src="img/3d/blob_2.webp" width="520" height="520" alt=""><img class="st-blob s2" src="img/3d/blob_2.webp" width="520" height="520" alt=""><img class="st-blob s3" src="img/3d/blob_1.webp" width="520" height="520" alt="">
-      <div class="st-obj" id="objG"><div class="st-c"><canvas id="seqG" width="800" height="1000"></canvas></div></div>
+      <div class="st-obj" id="objG"><div class="st-c"><canvas id="seqG" width="800" height="1300"></canvas><canvas id="seqB" width="800" height="1300"></canvas></div></div>
       <div class="st-obj" id="objP"><div class="st-c"><canvas id="seqP" width="1100" height="1000"></canvas></div></div>
       <div class="st-obj" id="objC"><div class="st-c"><canvas id="seqC" width="900" height="800"></canvas></div></div>
       <div class="st-beans"><img class="st-bean" src="img/3d/bean_0.webp" alt=""><img class="st-bean" src="img/3d/bean_1.webp" alt=""><img class="st-bean" src="img/3d/bean_2.webp" alt=""><img class="st-bean" src="img/3d/bean_0.webp" alt=""><img class="st-bean" src="img/3d/bean_1.webp" alt=""><img class="st-bean" src="img/3d/bean_2.webp" alt=""></div>
@@ -552,7 +554,7 @@ html.js-loading body{overflow:hidden}
       <p class="tx">100% арабика свежей обжарки. Мелем зерно перед каждой чашкой — на Каштановой, 14 в Одинцово-1.</p>
       <div class="status" id="status" aria-live="polite"><span class="dot"></span><span><span id="stText">Пн–Сб 08:00–21:00, Вс 09:00–21:00</span><small id="stSub">Каштановая ул., 14 · у входа вывеска ECUADOR</small></span></div>
       <div class="btns"><a class="btn btn-dark" href="#menu">Собрать предзаказ</a><a class="btn" href="https://yandex.ru/maps/?rtext=~55.654950%2C37.273525&amp;rtt=pd" target="_blank" rel="noopener">Маршрут</a></div>
-      <figure class="ph st-img"><img src="img/3d/g_000.webp" width="800" height="1000" loading="lazy" alt="Кофемолка ECUADOR со стеклянным бункером, в него сыплются зёрна"></figure>
+      <figure class="ph st-img"><img src="img/3d/grot_000.webp" width="800" height="1300" loading="lazy" alt="Кофемолка ECUADOR со стеклянным бункером, в него сыплются зёрна"></figure>
     </div>
     <div class="st-ch on-acc">
       <p class="label">02 · 05°09′ S · Перу, Сан-Игнасио</p>
@@ -1210,7 +1212,7 @@ $$('.bar-it').forEach(function(b){
   if (reduce || !hasG) { sec.classList.add('static'); readyRes(); return; }
   sec.classList.add('live');
   gsap.registerPlugin(SplitText);
-  var wch = words.map(function(w){ return SplitText.create(w, { type: 'chars', charsClass: 'ch' }).chars; });
+  var wch = words.map(function(w){ return $$('img', w); });
   function seg(u, a, b){ return sm((u - a) / (b - a)); }
   function lerp(a, b, k){ return a + (b - a) * k; }
 
@@ -1224,12 +1226,12 @@ $$('.bar-it').forEach(function(b){
 
   /* кадры: g — кофемолка (крутится сама по кругу), p — пролив и c — чашка (идут за прокруткой) */
   function seq(prefix, n){ var a = []; for (var i = 0; i < n; i++) a.push('img/3d/' + prefix + '_' + (i < 10 ? '00' : '0') + i + '.webp'); return a; }
-  var SEQ = { g: { src: seq('g', 24), img: [], el: $('#seqG') }, p: { src: seq('p', 40), img: [], el: $('#seqP') }, c: { src: seq('c', 24), img: [], el: $('#seqC') } };
+  var SEQ = { g: { src: seq('grot', 36), img: [], el: $('#seqG') }, b: { src: seq('gb', 48), img: [], el: $('#seqB') }, p: { src: seq('p', 40), img: [], el: $('#seqP') }, c: { src: seq('c', 24), img: [], el: $('#seqC') } };
   function load(k){
     var s = SEQ[k];
     return Promise.all(s.src.map(function(u, i){ var im = new Image(); im.decoding = 'async'; im.src = u; s.img[i] = im; return im.decode().catch(function(){}); }));
   }
-  var shown = { g: -1, p: -1, c: -1 };
+  var shown = { g: -1, b: -1, p: -1, c: -1 };
   function show(k, i){
     var s = SEQ[k]; i = clamp(Math.round(i), 0, s.src.length - 1);
     if (shown[k] === i) return;
@@ -1238,7 +1240,7 @@ $$('.bar-it').forEach(function(b){
     if (cv.width !== im.naturalWidth) { cv.width = im.naturalWidth; cv.height = im.naturalHeight; }
     x.clearRect(0, 0, cv.width, cv.height); x.drawImage(im, 0, 0); shown[k] = i;
   }
-  load('g').then(function(){ readyRes(); return load('p'); }).then(function(){ return load('c'); });
+  Promise.all([load('g'), load('b')]).then(function(){ readyRes(); return load('p'); }).then(function(){ return load('c'); });
   setTimeout(readyRes, 4000);
 
   var objG = $('#objG'), objP = $('#objP'), objC = $('#objC'), blobs = $$('.st-blob', sec), beans = $$('.st-bean', sec);
@@ -1271,8 +1273,8 @@ $$('.bar-it').forEach(function(b){
     if (!visible) return;
     /* кофемолка: въезжает сверху при загрузке, уезжает вверх во 2-й главе; зёрна сыплются сами (12 кадров/с) */
     var gUp = seg(cu, 1.4, 2.3), gO = sm(iv * 1.3) * (1 - seg(cu, 1.9, 2.3));
-    tr(objG, 0, -(1 - iv) * 60 - gUp * H * 1.1 + Math.sin(t * .9) * 6, 1, gO);
-    if (gO > .01) show('g', Math.floor(t * 12) % 24);
+    tr(objG, 0, -(1 - iv) * 60 - gUp * H * 1.1 + Math.sin(t * .9) * 6, 1 + seg(cu, 0, 1.4) * .035, gO);
+    if (gO > .01) { show('g', seg(cu, 0, 1.45) * 35); show('b', Math.floor(t * 24) % 48); }
     /* пролив: поднимается снизу, кадры чайника и графина — по прокрутке */
     var pi = seg(cu, 1.7, 2.55), po = seg(cu, 3.6, 4.4), pv = pi * (1 - seg(cu, 4.1, 4.4));
     tr(objP, 0, (1 - pi) * H * .9 - po * H * 1.1, 1, pv);
@@ -1301,7 +1303,7 @@ $$('.bar-it').forEach(function(b){
   window.__story = {
     ready: readyP,
     intro: function(){ if (introV < 1) gsap.to({ v: 0 }, { v: 1, duration: 1.6, ease: 'back.out(1.1)', onUpdate: function(){ introV = this.targets()[0].v; } }); },
-    state: function(){ return { mode: 'live', u: +cu.toFixed(3), lat: +latAt(cu).toFixed(2), place: lastPlace, frames: { g: shown.g, p: shown.p, c: shown.c }, grinder: +objG.style.opacity > .5, pour: +objP.style.opacity > .5, cup: +objC.style.opacity > .5, steps: chs.map(function(c){ return +(+c.style.opacity).toFixed(2); }) }; },
+    state: function(){ return { mode: 'live', u: +cu.toFixed(3), lat: +latAt(cu).toFixed(2), place: lastPlace, frames: { g: shown.g, b: shown.b, p: shown.p, c: shown.c }, grinder: +objG.style.opacity > .5, pour: +objP.style.opacity > .5, cup: +objC.style.opacity > .5, steps: chs.map(function(c){ return +(+c.style.opacity).toFixed(2); }) }; },
     set: function(p){ fixed = clamp(p, 0, 1) * U; tu = cu = fixed; }
   };
 })();
