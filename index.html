@@ -417,7 +417,8 @@ html.js-loading body{overflow:hidden}
   .story.live{height:calc(100svh + 6 * 55svh)}
   .story.live .st-pin{height:calc(100svh - var(--hh) - 76px);height:calc(100dvh - var(--hh) - 76px)}
   .story.live .st-panel{width:100%}
-  .story.live .st-words{place-items:start center;padding-top:12%}
+  /* телефон: широта одной строкой, слово под ней и ПОВЕРХ предметов, предметы — между словом и текстом главы */
+  .story.live .st-words{place-items:start center;padding-top:22px;z-index:3}
   .st-w{width:100vw}
   .story.live .st-ch{left:16px;right:16px;width:auto;bottom:calc(14px + var(--dbo, 0px))}
   .st-ch h1,.st-ch h2{font-size:26px;margin:4px 0 6px}
@@ -428,15 +429,18 @@ html.js-loading body{overflow:hidden}
   .st-ch .btns{margin-top:12px}
   .st-ch .btns .btn{min-height:44px;padding:10px 18px;font-size:15px}
   .st-ch .status{margin-top:10px}
-  .story.live .st-hud{top:14px;right:16px;transform:none}
+  .story.live .st-hud{top:6px;left:16px;right:16px;justify-content:center;transform:none}
   .st-scale{display:none}
-  .st-read b{font-size:15px;margin:2px 0 3px}
+  .st-read{display:flex;gap:8px;align-items:baseline;font-size:0}
+  .st-read b{font-size:13px;margin:0}
+  .st-read i{font-size:10.5px}
   .story.live .st-hint{display:none}
   .st-wrap-static{padding-inline:16px}
-  #objG{left:50%;top:-30%;height:88%}
-  #objP{left:46%;top:3%;height:58%}
-  #objC{left:50%;top:-4%;height:64%}
-  .story.live .st-objs,.story.live .st-words{transform-origin:50% 0;scale:var(--dbs, 1)}
+  /* доли — непрозрачная часть кадра: кофемолка .48–1 (сверху поток зёрен уходит за слово), пролив .2–.8, чашка .35–.72; 112px — под словом, 205/175px — над текстом главы */
+  #objG{left:50%;top:auto;height:min(calc((100% - 317px) / .517), 640px);bottom:205px}
+  #objP{left:46%;top:auto;height:min(calc((100% - 287px) / .604), 560px);bottom:calc(175px - .198 * min(calc((100% - 287px) / .604), 560px))}
+  #objC{left:50%;top:auto;height:min(calc((100% - 287px) / .365), 560px);bottom:calc(175px - .281 * min(calc((100% - 287px) / .365), 560px))}
+  .story.live .st-objs{bottom:var(--dbo, 0px)}
   .st-read{background:rgba(244,237,227,.88);padding:6px 9px;border-radius:10px}
   .st-beans{left:50%;top:32%}
   .st-blob{width:clamp(150px,40vw,220px)}
@@ -1265,7 +1269,7 @@ $$('.bar-it').forEach(function(b){
     if (fixed === null) cu += (tu - cu) * (1 - Math.exp(-(dt || 16) / 1000 * 6)); else cu = fixed;
     if (Math.abs(tu - cu) < 1e-4) cu = tu;
     var t = time || 0, H = pin.clientHeight, W = pin.clientWidth, iv = introV, mob = W < 760;
-    var dbo = Math.max(0, demoH - scrollY); if (dbo !== lastDbo) { lastDbo = dbo; sec.style.setProperty('--dbo', dbo + 'px'); sec.style.setProperty('--dbs', ((H - dbo) / H).toFixed(4)); }
+    var dbo = Math.max(0, demoH - scrollY); if (dbo !== lastDbo) { lastDbo = dbo; sec.style.setProperty('--dbo', dbo + 'px'); }
     chs.forEach(function(el, i){
       var o = chOp(cu, CH[i][0], CH[i][1]) * (i === 0 ? sm(iv * 1.4 - .3) : 1);
       el.style.opacity = o.toFixed(3); el.style.visibility = o < .01 ? 'hidden' : 'visible';
